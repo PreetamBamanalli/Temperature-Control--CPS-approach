@@ -1,0 +1,15 @@
+def heater_heating():                             // when temperature is less than the ideal value turn on the heater.
+	GPIO.output(17, True)                     //  heater turned on
+	print "System is in heating state"
+	while temp < 25 :                       // system should be in heating state until ideal value is achieved.
+		while timer_count != 0:            // wait for the average time that a heater takes to increase the temperature by 1 degree
+			timer_count--          
+		timer_count = 20000              // reset the timer_count
+		new_temp = read_temp()
+		if (new_temp != temp +1):      // check if the temperature is increased to 1 degree... if yes do nothing
+			GPIO.output(17, False)    // if no... turn off heater 1
+			GPIO.output(18, True)    // turn on heater 2
+		temp = read_temp()          // read the temp again to check the ideal value.
+	GPIO.output(17, False)
+	GPIO.output(18, False)
+	idle_read()
